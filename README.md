@@ -6,7 +6,7 @@ Docker image for testing RDI with Microsoft SQL Server 2022
 
 - Clone the repo locally and cd into directory `rdi-quickstart-sqlserver`
 - ```bash
-  docker build -t sqlserver sqlserver-image`
+  docker build -t sqlserver sqlserver-image
   ```
 
 ## Running a Container
