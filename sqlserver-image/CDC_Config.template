@@ -1,0 +1,121 @@
+/*************************************************
+Create Debezium user
+**************************************************/
+USE master
+GO
+CREATE LOGIN <DBZUSER> WITH PASSWORD = '<DBZUSER_PASSWORD>'
+GO
+USE Chinook
+GO
+CREATE USER <DBZUSER> FOR LOGIN <DBZUSER>
+GO
+
+/*************************************************
+Grant required permissions
+**************************************************/
+USE master
+GO
+GRANT VIEW SERVER STATE TO <DBZUSER>
+GO
+USE Chinook
+GO
+EXEC sp_addrolemember N'db_datareader', N'<DBZUSER>'
+GO
+
+/*************************************************
+Enable CDC on the SQL Server database
+**************************************************/
+USE Chinook
+GO
+EXEC sys.sp_cdc_enable_db
+GO
+
+/*************************************************
+Enable CDC on SQL Server tables
+**************************************************/
+USE Chinook
+GO
+EXEC sys.sp_cdc_enable_table
+@source_schema = N'dbo',
+@source_name   = N'Album', 
+@role_name     = N'db_cdc',  
+@supports_net_changes = 0
+GO
+
+EXEC sys.sp_cdc_enable_table
+@source_schema = N'dbo',
+@source_name   = N'Artist', 
+@role_name     = N'db_cdc',
+@supports_net_changes = 0
+GO
+
+EXEC sys.sp_cdc_enable_table
+@source_schema = N'dbo',
+@source_name   = N'Customer', 
+@role_name     = N'db_cdc',
+@supports_net_changes = 0
+GO
+
+EXEC sys.sp_cdc_enable_table
+@source_schema = N'dbo',
+@source_name   = N'Employee', 
+@role_name     = N'db_cdc',
+@supports_net_changes = 0
+GO
+
+EXEC sys.sp_cdc_enable_table
+@source_schema = N'dbo',
+@source_name   = N'Genre', 
+@role_name     = N'db_cdc',
+@supports_net_changes = 0
+GO
+
+EXEC sys.sp_cdc_enable_table
+@source_schema = N'dbo',
+@source_name   = N'Invoice', 
+@role_name     = N'db_cdc',
+@supports_net_changes = 0
+GO
+
+EXEC sys.sp_cdc_enable_table
+@source_schema = N'dbo',
+@source_name   = N'InvoiceLine', 
+@role_name     = N'db_cdc',
+@supports_net_changes = 0
+GO
+
+EXEC sys.sp_cdc_enable_table
+@source_schema = N'dbo',
+@source_name   = N'MediaType', 
+@role_name     = N'db_cdc',
+@supports_net_changes = 0
+GO
+
+EXEC sys.sp_cdc_enable_table
+@source_schema = N'dbo',
+@source_name   = N'Playlist', 
+@role_name     = N'db_cdc',
+@supports_net_changes = 0
+GO
+
+EXEC sys.sp_cdc_enable_table
+@source_schema = N'dbo',
+@source_name   = N'PlaylistTrack', 
+@role_name     = N'db_cdc',
+@supports_net_changes = 0
+GO
+
+EXEC sys.sp_cdc_enable_table
+@source_schema = N'dbo',
+@source_name   = N'Track', 
+@role_name     = N'db_cdc',
+@supports_net_changes = 0
+GO
+
+/*************************************************
+Add the Debezium user to the CDC role
+**************************************************/
+USE Chinook
+GO
+EXEC sp_addrolemember N'db_cdc', N'<DBZUSER>'
+GO
