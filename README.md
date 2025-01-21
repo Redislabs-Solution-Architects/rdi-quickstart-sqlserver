@@ -14,7 +14,7 @@ Docker image for testing RDI with Microsoft SQL Server 2022
 - Copy file `env.sqlserver` to `.env`
 - Adjust the passwords to your requirements
 - ```bash
-  docker run --name sqlserver --env-file .env -v $PWD/sqlserver/data:/var/opt/mssql/data -v $PWD/sqlserver/log:/var/opt/mssql/log -p 1433:1433 -d sqlserver
+  docker run --name sqlserver --env-file .env -v $PWD/data:/var/opt/mssql/data -v $PWD/log:/var/opt/mssql/log -p 1433:1433 -d sqlserver
   ```
 
 ## Connecting to the Chinook Database
