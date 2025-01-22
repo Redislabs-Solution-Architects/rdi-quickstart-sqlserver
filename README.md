@@ -82,3 +82,11 @@ sources:
 - <DB_HOST> = <FQDN of your machine (or `localhost` when running locally)\>
 - ${SOURCE_DB_USERNAME} = <value of `DBZUSER` in file `.env`>
 - ${SOURCE_DB_PASSWORD} = <value of `DBZUSER_PASSWORD` in file `.env`>
+
+## Rebuilding the Database
+
+Changing the username or password for the Debezium user requires rebuilding the database. Follow these steps:
+
+- Stop and remove the container
+- Delete the contents of directory `data`
+- Start the container
