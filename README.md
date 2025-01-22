@@ -40,7 +40,7 @@ You should see 11 tables in schema `dbo` of database `Chinook`, as well as 11 co
 You can also use the command line interface `sqlcmd` to execute queries directly in the container, for example:
 
 ```bash
-docker exec -it sqlserver /opt/mssql-tools18/bin/sqlcmd -No -S localhost -U sa -P CompLex_987 -d Chinook -Q "select table_name from information_schema.tables where table_schema='dbo'"
+docker exec -it sqlserver /opt/mssql-tools18/bin/sqlcmd -No -S localhost -U sa -P CompLex#987 -d Chinook -Q "select table_name from information_schema.tables where table_schema='dbo'"
 ```
 
 Expected result:
