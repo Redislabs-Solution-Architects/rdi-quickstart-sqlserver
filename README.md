@@ -6,15 +6,19 @@ Docker image for testing RDI with Microsoft SQL Server 2022
 
 - Clone the repo locally and cd into directory `rdi-quickstart-sqlserver`
 - ```bash
-  docker build -t sqlserver sqlserver-image`
+  docker build -t sqlserver sqlserver-image
   ```
 
 ## Running a Container
 
 - Copy file `env.sqlserver` to `.env`
 - Adjust the passwords to your requirements
+- Change permissions on directories:
+  ```bash
+  chmod 777 data log
+  ```
 - ```bash
-  docker run --name sqlserver --env-file .env -v $PWD/sqlserver/data:/var/opt/mssql/data -v $PWD/sqlserver/log:/var/opt/mssql/log -p 1433:1433 -d sqlserver
+  docker run --name sqlserver --env-file .env -v $PWD/data:/var/opt/mssql/data -v $PWD/log:/var/opt/mssql/log -p 1433:1433 -d sqlserver
   ```
 
 ## Connecting to the Chinook Database
@@ -36,7 +40,7 @@ You should see 11 tables in schema `dbo` of database `Chinook`, as well as 11 co
 You can also use the command line interface `sqlcmd` to execute queries directly in the container, for example:
 
 ```bash
-docker exec -it sqlserver /opt/mssql-tools18/bin/sqlcmd -No -S localhost -U sa -P CompLex_987 -d Chinook -Q "select table_name from information_schema.tables where table_schema='dbo'"
+docker exec -it sqlserver /opt/mssql-tools18/bin/sqlcmd -No -S localhost -U sa -P CompLex#987 -d Chinook -Q "select table_name from information_schema.tables where table_schema='dbo'"
 ```
 
 Expected result:
@@ -82,3 +86,11 @@ sources:
 - <DB_HOST> = <FQDN of your machine (or `localhost` when running locally)\>
 - ${SOURCE_DB_USERNAME} = <value of `DBZUSER` in file `.env`>
 - ${SOURCE_DB_PASSWORD} = <value of `DBZUSER_PASSWORD` in file `.env`>
+
+## Rebuilding the Database
+
+Changing the username or password for the Debezium user requires rebuilding the database. Follow these steps:
+
+- Stop and remove the container
+- Delete the contents of directory `data`
+- Start the container
